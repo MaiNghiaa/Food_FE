@@ -5,10 +5,6 @@ import SignUpForm from "../../Components/SignUpForm";
 const LoginPage = () => {
   const [isLogin, setIsLogin] = useState(true);
 
-  // Remove unused state variables for now
-  // const [loginEmail, setLoginEmail] = useState("");
-  // const [loginPassword, setLoginPassword] = useState("");
-
   return (
     <div className="bg-sky-100 flex flex-col items-center justify-center min-h-screen md:py-2">
       <main className="flex items-center w-full px-2 md:px-20">

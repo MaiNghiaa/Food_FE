@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 const LoginForm = ({ setIsLogin }) => {
   // const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
 
@@ -13,6 +14,10 @@ const LoginForm = ({ setIsLogin }) => {
 
     setLoginEmail("");
     setLoginPassword("");
+    if (loginEmail == "admin@gmail.com") {
+      // navigate("/HomePage");
+      console.log("gello");
+    }
   };
 
   return (

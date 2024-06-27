@@ -4,7 +4,7 @@ const SignUpForm = ({ setIsLogin }) => {
   const [registerName, setRegisterName] = useState("");
   const [registerEmail, setRegisterEmail] = useState("");
   const [registerPassword, setRegisterPassword] = useState("");
-  const [registerAvatar, setRegisterAvatar] = useState(null); // Updated to hold file object
+  // const [registerAvatar, setRegisterAvatar] = useState(null); // Updated to hold file object
 
   const handleRegisterSubmit = (e) => {
     e.preventDefault();
@@ -13,33 +13,33 @@ const SignUpForm = ({ setIsLogin }) => {
     if (
       !registerName ||
       !registerEmail ||
-      !registerPassword ||
-      !registerAvatar
+      !registerPassword
+      // !registerAvatar
     ) {
       alert("Please fill out all required fields.");
       return;
     }
 
-    // Simulate uploading the avatar file
     console.log("Name:", registerName);
     console.log("Email:", registerEmail);
     console.log("Password:", registerPassword);
-    console.log("Avatar File:", registerAvatar);
+    setIsLogin(true);
+    // console.log("Avatar File:", registerAvatar);
 
     // Reset state after form submission (clearing inputs)
     setRegisterName("");
     setRegisterEmail("");
     setRegisterPassword("");
-    setRegisterAvatar(null);
+    // setRegisterAvatar(null);
 
     // Add further logic here to handle registration process (e.g., API calls)
   };
 
-  const handleAvatarChange = (e) => {
-    const file = e.target.files[0];
-    console.log(file);
-    setRegisterAvatar(file);
-  };
+  // const handleAvatarChange = (e) => {
+  //   const file = e.target.files[0];
+  //   console.log(file);
+  //   setRegisterAvatar(file);
+  // };
 
   return (
     <div className="bg-blue-400 text-black rounded-2xl shadow-2xl  flex flex-col w-full md:w-1/3 items-center max-w-4xl transition duration-1000 ease-in">
@@ -73,13 +73,13 @@ const SignUpForm = ({ setIsLogin }) => {
           onChange={(e) => setRegisterPassword(e.target.value)}
           required
         />
-        <input
+        {/* <input
           type="file" // Change input type to file
           accept=".jpg,.jpeg,.png" // Specify accepted file types if needed
           className="rounded-2xl px-3 py-2 w-full border-[1px] border-blue-400 my-2 focus:shadow-md focus:border-pink-400 focus:outline-none focus:ring-0"
           onChange={handleAvatarChange} // Handle file change event
           required
-        />
+        /> */}
         <button
           type="submit"
           className="rounded-2xl mt-4 text-blue-400 bg-white w-full px-4 py-2 shadow-md hover:text-white hover:bg-blue-400 transition duration-200 ease-in"

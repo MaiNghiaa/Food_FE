@@ -3,10 +3,12 @@ import { NavLink } from "react-router-dom";
 
 const Navbar = () => {
   return (
-    <nav className="bg-white py-3 sticky top-0 shadow-md">
-      <div className="container mx-auto flex items-center justify-between">
-        <NavLink className="text-2xl font-bold px-2" to="/">
-          React Ecommerce
+    <nav className="bg-[#b22830] border-t-[10px] border-[#53382c] pt-14px pb-3 relative top-0 shadow-md ">
+      <div className="container mx-auto flex items-end justify-between">
+        <NavLink className="flex items-end justify-center" to="/">
+          <div className="max-w-[110px] min-h-[86px] mr-5">
+            <img src="./highlandWhiteLogo.png" alt="" className="w-full" />
+          </div>
         </NavLink>
         <button
           className="block lg:hidden mx-2"
@@ -17,44 +19,44 @@ const Navbar = () => {
         </button>
 
         <div className="hidden lg:flex lg:items-center lg:justify-between w-full">
-          <ul className="flex flex-col lg:flex-row lg:space-x-4 text-center my-2 lg:my-0 lg:m-auto">
-            <li className="nav-item">
+          <ul className="flex flex-col lg:flex-row lg:space-x-4 text-center my-2 lg:my-0 lg:m-auto text-base font-bold ">
+            <li className="nav-item p-2.5 hover:bg-[#53382c]  text-white">
               <NavLink className="nav-link" to="/">
-                Home
+                Trang chủ
               </NavLink>
             </li>
-            <li className="nav-item">
-              <NavLink className="nav-link" to="/product">
-                Products
+            <li className="nav-item p-2.5 hover:bg-[#53382c]  text-white">
+              <NavLink className="nav-link" to="/products">
+                Thực đơn
               </NavLink>
             </li>
-            <li className="nav-item">
+            <li className="nav-item p-2.5 hover:bg-[#53382c]  text-white">
               <NavLink className="nav-link" to="/about">
-                About
+                Về chúng tôi
               </NavLink>
             </li>
-            <li className="nav-item">
+            <li className="nav-item p-2.5 hover:bg-[#53382c]  text-white">
               <NavLink className="nav-link" to="/contact">
-                Contact
+                Tin tức
               </NavLink>
             </li>
           </ul>
           <div className="flex flex-col lg:flex-row items-center lg:space-x-4 text-center">
             <NavLink
               to="/login"
-              className="btn btn-outline-dark m-2 border-2 border-gray-800 px-4 py-2 rounded-md hover:bg-gray-800 hover:text-white transition duration-300"
+              className="btn text-white hover:border-[#CC9554] btn-outline-dark m-2 border-2 border-white px-4 py-2 rounded-md hover:bg-[#CC9554] hover:text-white transition duration-300"
             >
-              <i className="fa fa-sign-in-alt mr-1"></i> Login
+              <i className="fa fa-sign-in-alt mr-1"></i> Đăng nhập
             </NavLink>
             <NavLink
               to="/register"
-              className="btn btn-outline-dark m-2 border-2 border-gray-800 px-4 py-2 rounded-md hover:bg-gray-800 hover:text-white transition duration-300"
+              className="btn text-white hover:border-[#CC9554] btn-outline-dark m-2 border-2 border-white px-4 py-2 rounded-md hover:bg-[#CC9554] hover:text-white transition duration-300"
             >
-              <i className="fa fa-user-plus mr-1"></i> Register
+              <i className="fa fa-user-plus mr-1"></i> Đăng kí
             </NavLink>
             <NavLink
               to="/cart"
-              className="btn btn-outline-dark m-2 border-2 border-gray-800 px-4 py-2 rounded-md hover:bg-gray-800 hover:text-white transition duration-300"
+              className="btn text-white hover:border-[#CC9554] btn-outline-dark m-2 border-2 border-white px-4 py-2 rounded-md hover:bg-[#CC9554] hover:text-white transition duration-300"
             >
               <i className="fa fa-cart-shopping mr-1"></i> Cart
             </NavLink>
