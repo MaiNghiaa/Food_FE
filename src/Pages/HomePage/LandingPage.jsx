@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import SlideShow from "../../Components/Slideshow/SlideShow";
 import Services from "../Services/Services";
 import { Swiper, SwiperSlide } from "swiper/react";
+import { NavLink } from "react-router-dom";
 
 // Import Swiper styles
 import "swiper/css";
@@ -83,14 +84,14 @@ export default function LandingPage() {
                 <h2 className="block text-xl font-bold uppercase font-custom whitespace-nowrap">
                   TIN MỚI NHẤT
                 </h2>
-                <a
-                  href=""
-                  className="block text-sm font-normal  underline whitespace-nowrap"
+                <NavLink
+                  className="nav-link block text-sm font-normal  underline whitespace-nowrap"
+                  to="/news"
                 >
                   <span className="pr-2.5 relative  whitespace-nowrap">
                     Xem toàn bộ
                   </span>
-                </a>
+                </NavLink>
               </div>
               <div className="flex flex-col gap-2">
                 {Data.map((item, index) => (
