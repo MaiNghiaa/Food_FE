@@ -2,10 +2,18 @@ import { lazy, memo, useEffect, Suspense } from "react";
 import { useRoutes, useLocation } from "react-router-dom";
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 import LandingPage from "../Pages/HomePage/LandingPage";
-import { PATH_ABOUT, PATH_HOME, PATH_LOGIN, PATH_PRODUCTS } from "./path";
+import {
+  PATH_ABOUT,
+  PATH_HOME,
+  PATH_LOGIN,
+  PATH_NEWS,
+  PATH_PRODUCTS_LIST,
+  PATH_REGISTER,
+} from "./path";
 import LoginPage from "../Pages/LoginPage/LoginPage";
-import Products from "../Pages/Products/Products";
 import About from "../Pages/About/About";
+import News from "../Pages/News/News";
+import ListProducts from "../Pages/ListProducts/ListProducts";
 export const normalRoutes = [PATH_HOME];
 export const authRoutes = [];
 
@@ -34,8 +42,10 @@ function Router() {
       children: [
         { path: PATH_HOME, element: <LandingPage /> },
         { path: PATH_LOGIN, element: <LoginPage /> },
-        { path: PATH_PRODUCTS, element: <Products /> },
+        { path: PATH_PRODUCTS_LIST, element: <ListProducts /> },
         { path: PATH_ABOUT, element: <About /> },
+        { path: PATH_NEWS, element: <News /> },
+        { path: PATH_REGISTER, element: <LoginPage /> },
       ],
     },
   ];

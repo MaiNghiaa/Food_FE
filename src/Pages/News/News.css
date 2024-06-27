@@ -1,0 +1,16 @@
+.date span {
+  padding-left: 20px;
+  position: relative;
+}
+.date span:before {
+  content: "\f133";
+  font-family: fontawesome;
+  position: absolute;
+  left: 0;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  -o-transform: translateY(-50%);
+  transform: translateY(-50%);
+  color: #b22830;
+}

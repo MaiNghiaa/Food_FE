@@ -26,7 +26,7 @@ const Navbar = () => {
               </NavLink>
             </li>
             <li className="nav-item p-2.5 hover:bg-[#53382c]  text-white">
-              <NavLink className="nav-link" to="/products">
+              <NavLink className="nav-link" to="/list-products">
                 Thực đơn
               </NavLink>
             </li>
@@ -36,7 +36,7 @@ const Navbar = () => {
               </NavLink>
             </li>
             <li className="nav-item p-2.5 hover:bg-[#53382c]  text-white">
-              <NavLink className="nav-link" to="/contact">
+              <NavLink className="nav-link" to="/news">
                 Tin tức
               </NavLink>
             </li>

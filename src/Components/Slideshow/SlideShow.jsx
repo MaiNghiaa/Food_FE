@@ -31,15 +31,16 @@ function Slideshow() {
     <div className="">
       {imgtintuc.map((img, index) => (
         <div
-          className="menu py-10"
+          key={index}
+          className="menu py-10 bg-cover"
           style={{
             backgroundImage: `url(${img.img})`,
           }}
         >
-          <div className="max-w-[1200px] p-[0_15px] m-[0_auto] flex items-center justify-around gap-10 my-10">
+          <div className="max-w-[1200px] mx-auto px-[15px] flex flex-col md:flex-row items-center justify-around gap-10 my-10">
             <div className="captionslideshow flex-1 w-full md:w-[585px] md:order-1 order-2">
               <p className="title mb-5">
-                <h3 className="text-[45px] leading-[48px] uppercase block font-bold text-[#CC9554] hover:text-[#b22830] transition">
+                <h3 className="text-3xl md:text-4xl leading-[48px] uppercase font-bold text-[#CC9554] hover:text-[#b22830] transition">
                   {img.name}
                 </h3>
               </p>
@@ -47,7 +48,7 @@ function Slideshow() {
                 {img.title}
               </div>
               <div className="action">
-                <button className="hover:text-white hover:border-[#b22830] hover:bg-[#b22830] inline-block text-[12px] leading-5 border-[1px] border-solid border-[#cc9554] py-[7px] px-[70px] rounded-[5px] text-[#cc9554] uppercase transition">
+                <button className="hover:text-white hover:border-[#b22830] hover:bg-[#b22830] inline-block text-sm md:text-base leading-5 border-[1px] border-solid border-[#cc9554] py-[7px] px-[70px] rounded-[5px] text-[#cc9554] uppercase transition">
                   Khám phá thêm
                 </button>
               </div>
@@ -57,7 +58,7 @@ function Slideshow() {
                 <img
                   src={img.imgsp}
                   alt=" "
-                  className="w-[392px] object-cover"
+                  className="w-full md:w-[392px] h-auto object-cover"
                 />
               </a>
             </div>
