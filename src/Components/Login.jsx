@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const LoginForm = ({ setIsLogin }) => {
-  // const navigate = useNavigate();
-  // const navigate = useNavigate();
+  const navigate = useNavigate(); // Sử dụng useNavigate hook để truy cập vào navigate của router
+
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
 
@@ -12,13 +13,31 @@ const LoginForm = ({ setIsLogin }) => {
     console.log("Email:", loginEmail);
     console.log("Password:", loginPassword);
 
-    setLoginEmail("");
-    setLoginPassword("");
-    if (loginEmail == "admin@gmail.com") {
-      // navigate("/HomePage");
-      console.log("gello");
-    }
+    setLoginEmail(loginEmail);
+    setLoginPassword(loginPassword);
   };
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.post("http://localhost:3000/login", {
+          email: loginEmail,
+          password: loginPassword,
+        });
+        const token = response.data.token;
+        const Name = response.data.Name;
+        console.log("Token:", token);
+
+        // Lưu token vào localStorage hoặc Redux state để sử dụng sau này
+        localStorage.setItem("token", token); // Ví dụ lưu vào localStorage
+        localStorage.setItem("Name", Name); // Ví dụ lưu vào localStorage
+        navigate("/");
+      } catch (err) {
+        console.error("Lỗi khi gọi API:", err);
+      }
+    };
+
+    fetchData();
+  }, [loginEmail, loginPassword]);
 
   return (
     <div className="bg-white rounded-2xl shadow-2xl flex flex-col w-full md:w-1/3 items-center max-w-4xl transition duration-1000 ease-out">

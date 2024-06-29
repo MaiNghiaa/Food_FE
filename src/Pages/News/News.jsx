@@ -1,70 +1,32 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./News.css";
+import axios from "axios";
+import { formatDate, formatTime } from "../../Components/finance";
 export default function News() {
-  const [Data, setData] = useState([
-    {
-      img: "./tintuc/tintuc1.jpg",
-      title: "TRONG PHINDI CASSIA CÓ GÌ MÀ SÁNG TẠO ĐẾN THẾ?",
-      day: "24/06/2024",
-      hour: "09:26",
-    },
-    {
-      img: "./tintuc/tintuc1.jpg",
-      title: "TRONG PHINDI CASSIA CÓ GÌ MÀ SÁNG TẠO ĐẾN THẾ?",
-      day: "24/06/2024",
-      hour: "09:26",
-    },
-    {
-      img: "./tintuc/tintuc1.jpg",
-      title: "TRONG PHINDI CASSIA CÓ GÌ MÀ SÁNG TẠO ĐẾN THẾ?",
-      day: "24/06/2024",
-      hour: "09:26",
-    },
-    {
-      img: "./tintuc/tintuc1.jpg",
-      title: "TRONG PHINDI CASSIA CÓ GÌ MÀ SÁNG TẠO ĐẾN THẾ?",
-      day: "24/06/2024",
-      hour: "09:26",
-    },
-    {
-      img: "./tintuc/tintuc1.jpg",
-      title: "TRONG PHINDI CASSIA CÓ GÌ MÀ SÁNG TẠO ĐẾN THẾ?",
-      day: "24/06/2024",
-      hour: "09:26",
-    },
-    {
-      img: "./tintuc/tintuc1.jpg",
-      title: "TRONG PHINDI CASSIA CÓ GÌ MÀ SÁNG TẠO ĐẾN THẾ?",
-      day: "24/06/2024",
-      hour: "09:26",
-    },
-    {
-      img: "./tintuc/tintuc1.jpg",
-      title: "TRONG PHINDI CASSIA CÓ GÌ MÀ SÁNG TẠO ĐẾN THẾ?",
-      day: "24/06/2024",
-      hour: "09:26",
-    },
-    {
-      img: "./tintuc/tintuc1.jpg",
-      title: "TRONG PHINDI CASSIA CÓ GÌ MÀ SÁNG TẠO ĐẾN THẾ?",
-      day: "24/06/2024",
-      hour: "09:26",
-    },
-    {
-      img: "./tintuc/tintuc1.jpg",
-      title: "TRONG PHINDI CASSIA CÓ GÌ MÀ SÁNG TẠO ĐẾN THẾ?",
-      day: "24/06/2024",
-      hour: "09:26",
-    },
-  ]);
+  const [Data, setData] = useState([]);
+  const [Error, setError] = useState();
   const [visibleCount, setVisibleCount] = useState(6);
-
   const moreInfo = () => {
     setVisibleCount((prevVisibleCount) => prevVisibleCount + 3);
   };
   const lessInfo = () => {
     setVisibleCount(6);
   };
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get("http://localhost:3000/getTintuc");
+        setData(response.data);
+      } catch (err) {
+        setError(err);
+      }
+    };
+
+    fetchData();
+
+    return () => {};
+  }, []);
+
   return (
     <div>
       <div className="news py-11">
@@ -84,7 +46,7 @@ export default function News() {
                         <div className="img-news pt-[66.666666%] relative overflow-hidden mb-2.5">
                           <a href="" className="transition">
                             <img
-                              src={item.img}
+                              src={`http://localhost:3000/assets/${item.hinhanh}`}
                               alt=""
                               className="absolute top-0 left-0 w-full h-full object-cover transition"
                             />
@@ -96,13 +58,13 @@ export default function News() {
                               href=""
                               className="block text-sm h-44px overflow-hidden"
                             >
-                              {item.title}
+                              {item.name}
                             </a>
                           </h3>
                         </div>
                         <div className="date text-[13px] leading-[21px] text-[#888888]">
                           <span>
-                            {item.day}, {item.hour}
+                            {formatDate(item.day)}, {formatTime(item.hour)}
                           </span>
                         </div>
                       </div>

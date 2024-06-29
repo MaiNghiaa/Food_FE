@@ -4,16 +4,21 @@ import { TransitionGroup, CSSTransition } from "react-transition-group";
 import LandingPage from "../Pages/HomePage/LandingPage";
 import {
   PATH_ABOUT,
+  PATH_DETAIL,
   PATH_HOME,
   PATH_LOGIN,
   PATH_NEWS,
   PATH_PRODUCTS_LIST,
+  PATH_PROFILE,
   PATH_REGISTER,
 } from "./path";
 import LoginPage from "../Pages/LoginPage/LoginPage";
 import About from "../Pages/About/About";
 import News from "../Pages/News/News";
 import ListProducts from "../Pages/ListProducts/ListProducts";
+import Detail from "../Pages/Detail/ProductDetail";
+import ProductDetail from "../Pages/Detail/ProductDetail";
+import Profile from "../Pages/Profile/Profile";
 export const normalRoutes = [PATH_HOME];
 export const authRoutes = [];
 
@@ -46,6 +51,8 @@ function Router() {
         { path: PATH_ABOUT, element: <About /> },
         { path: PATH_NEWS, element: <News /> },
         { path: PATH_REGISTER, element: <LoginPage /> },
+        { path: PATH_DETAIL, element: <ProductDetail /> },
+        { path: PATH_PROFILE, element: <Profile /> },
       ],
     },
   ];
