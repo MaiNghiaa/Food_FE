@@ -7,7 +7,10 @@ const ProductDetail = () => {
   const [Error, setError] = useState();
   const [quantity, setQuantity] = useState(0);
   const location = useLocation();
+  const [cart, setCart] = useState([]);
+
   const { product } = location.state;
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -26,9 +29,12 @@ const ProductDetail = () => {
   }, []);
   // tang giảm số lượng
 
+  // console.log(product, DetailProduct);
+
   //
   const newdata = { ...product, ...DetailProduct };
-  console.log(newdata);
+
+  // console.log(newdata);
   const increment = () => {
     if (quantity < newdata.soluong)
       setQuantity((prevQuantity) => prevQuantity + 1);
@@ -39,6 +45,55 @@ const ProductDetail = () => {
       setQuantity((prevQuantity) => prevQuantity - 1);
     }
   };
+  useEffect(() => {
+    // Lấy danh sách sản phẩm từ localStorage khi component được tải lần đầu tiên
+    const savedCart = JSON.parse(localStorage.getItem("cart")) || [];
+    setCart(savedCart);
+  }, []);
+
+  useEffect(() => {
+    // Cập nhật localStorage khi giỏ hàng thay đổi
+    localStorage.setItem("cart", JSON.stringify(cart));
+  }, [cart]);
+
+  useEffect(() => {
+    // In ra cart chỉ một lần khi component được tải lần đầu tiên
+    const savedCart = JSON.parse(localStorage.getItem("cart")) || [];
+    console.log(savedCart);
+  }, []);
+  console.log(cart);
+  const addToCart = (quantity) => {
+    console.log(quantity);
+    if (quantity === 0) return;
+    const existingProduct = cart.find((item) => item.tensp === product.tensp);
+    if (existingProduct) {
+      //   // Nếu sản phẩm đã tồn tại trong giỏ hàng
+      if (existingProduct.quantity + quantity > product.soluong) {
+        alert("Bạn không thể mua quá số lượng của cửa hàng");
+        return;
+      }
+      const updatedCart = cart.map((item) =>
+        item.idsp === product.idsp
+          ? { ...item, quantity: item.quantity + quantity }
+          : item
+      );
+      setCart(updatedCart);
+    } else {
+      //   // Nếu sản phẩm chưa tồn tại trong giỏ hàng
+      setCart([
+        ...cart,
+        {
+          idsp: product.idsp,
+          hinhanh: product.hinhanh,
+          tensp: product.tensp,
+          giaban: product.giaban,
+          quantity: quantity,
+        },
+      ]);
+    }
+    setQuantity(1);
+  };
+
   return (
     <div className="list-product py-11">
       <div className="news-wrapper px-[15px] max-w-[1200px] mx-auto">
@@ -144,7 +199,10 @@ const ProductDetail = () => {
                       {formatCurrencyVND(newdata.giaban)}
                     </span>
                     <div className="flex gap-2">
-                      <button className="flex ml-auto text-white bg-green-500 border-0 py-2 px-6 focus:outline-none hover:bg-green-400 rounded">
+                      <button
+                        onClick={() => addToCart(quantity)}
+                        className="flex ml-auto text-white bg-green-500 border-0 py-2 px-6 focus:outline-none hover:bg-green-400 rounded"
+                      >
                         Thêm vào giỏ
                       </button>
                     </div>

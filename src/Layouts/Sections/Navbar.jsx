@@ -1,9 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 
 const Navbar = () => {
   const [token, settoken] = useState(localStorage.getItem("token"));
   const [Name, setName] = useState(localStorage.getItem("Name"));
+  // const [totalQuantity, settotalQuantity] = useState();
+  // useEffect(() => {
+  //   settotalQuantity(localStorage.setItem("totalQuantity"));
+  // }, [totalQuantity]);
   return (
     <nav className="bg-[#b22830] border-t-[10px] border-[#53382c] pt-14px pb-3 relative top-0 shadow-md ">
       <div className="container mx-auto flex items-end justify-between">
@@ -61,19 +65,30 @@ const Navbar = () => {
                 </NavLink>
               </>
             ) : (
-              <NavLink
-                to="/profile"
-                className="btn text-white hover:border-[#CC9554] btn-outline-dark m-2 border-2 border-white px-4 py-2 rounded-md hover:bg-[#CC9554] hover:text-white transition duration-300"
-              >
-                {Name}
-              </NavLink>
+              <>
+                <NavLink
+                  to="/profile"
+                  className="btn text-white hover:border-[#CC9554] btn-outline-dark m-2 border-2 border-white px-4 py-2 rounded-md hover:bg-[#CC9554] hover:text-white transition duration-300"
+                >
+                  {Name}
+                </NavLink>
+                <button
+                  onClick={() => {
+                    localStorage.removeItem("token");
+                    settoken();
+                  }}
+                  className="btn text-white hover:border-[#CC9554] btn-outline-dark m-2 border-2 border-white px-4 py-2 rounded-md hover:bg-[#CC9554] hover:text-white transition duration-300"
+                >
+                  Logout
+                </button>
+              </>
             )}
-
             <NavLink
               to="/cart"
               className="btn text-white hover:border-[#CC9554] btn-outline-dark m-2 border-2 border-white px-4 py-2 rounded-md hover:bg-[#CC9554] hover:text-white transition duration-300"
             >
-              <i className="fa fa-cart-shopping mr-1"></i> Cart
+              <i className="fa fa-cart-shopping mr-1"></i> Cart{" "}
+              {/* {!totalQuantity ? " " : "(" + totalQuantity + ")"} */}
             </NavLink>
           </div>
         </div>
