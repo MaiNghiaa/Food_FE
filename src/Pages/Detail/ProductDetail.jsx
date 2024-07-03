@@ -1,13 +1,16 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
+import { useCart } from "../../Context/CartContext";
+
 import { formatCurrencyVND } from "../../Components/finance";
 const ProductDetail = () => {
   const [DetailProduct, setDetail] = useState();
   const [Error, setError] = useState();
-  const [quantity, setQuantity] = useState(0);
+  const [quantity, setQuantity] = useState(1);
   const location = useLocation();
   const [cart, setCart] = useState([]);
+  const { addDetailToCart } = useCart();
 
   const { product } = location.state;
 
@@ -27,14 +30,8 @@ const ProductDetail = () => {
 
     return () => {};
   }, []);
-  // tang giảm số lượng
-
-  // console.log(product, DetailProduct);
-
-  //
   const newdata = { ...product, ...DetailProduct };
 
-  // console.log(newdata);
   const increment = () => {
     if (quantity < newdata.soluong)
       setQuantity((prevQuantity) => prevQuantity + 1);
@@ -45,61 +42,25 @@ const ProductDetail = () => {
       setQuantity((prevQuantity) => prevQuantity - 1);
     }
   };
-  useEffect(() => {
-    // Lấy danh sách sản phẩm từ localStorage khi component được tải lần đầu tiên
-    const savedCart = JSON.parse(localStorage.getItem("cart")) || [];
-    setCart(savedCart);
-  }, []);
 
-  useEffect(() => {
-    // Cập nhật localStorage khi giỏ hàng thay đổi
-    localStorage.setItem("cart", JSON.stringify(cart));
-  }, [cart]);
-
-  useEffect(() => {
-    // In ra cart chỉ một lần khi component được tải lần đầu tiên
-    const savedCart = JSON.parse(localStorage.getItem("cart")) || [];
-    console.log(savedCart);
-  }, []);
-  console.log(cart);
-  const addToCart = (quantity) => {
-    console.log(quantity);
-    if (quantity === 0) return;
-    const existingProduct = cart.find((item) => item.tensp === product.tensp);
-    if (existingProduct) {
-      //   // Nếu sản phẩm đã tồn tại trong giỏ hàng
-      if (existingProduct.quantity + quantity > product.soluong) {
-        alert("Bạn không thể mua quá số lượng của cửa hàng");
-        return;
-      }
-      const updatedCart = cart.map((item) =>
-        item.idsp === product.idsp
-          ? { ...item, quantity: item.quantity + quantity }
-          : item
-      );
-      setCart(updatedCart);
-    } else {
-      //   // Nếu sản phẩm chưa tồn tại trong giỏ hàng
-      setCart([
-        ...cart,
-        {
-          idsp: product.idsp,
-          hinhanh: product.hinhanh,
-          tensp: product.tensp,
-          giaban: product.giaban,
-          quantity: quantity,
-        },
-      ]);
-    }
-    setQuantity(1);
+  const addToCart = (product, quantity) => {
+    addDetailToCart(product, quantity);
   };
-
   return (
     <div className="list-product py-11">
       <div className="news-wrapper px-[15px] max-w-[1200px] mx-auto">
         <div className="w-full">
+          <div className="mid-title mb-5 w-auto relative">
+            <h1 className="text-[45px] leading-[55px] font-bold text-left text-[#53382c]">
+              SẢN PHẨM CHI TIẾT
+            </h1>
+          </div>
           <section className="text-gray-700 body-font overflow-hidden bg-white">
-            <div className="container px-5 py-24 mx-auto">
+            <div className="nav-link py-3 text-blue-400 text-sm flex gap-1">
+              <NavLink to="/list-products">{""}List product</NavLink>
+              <p className="text-black">\ {newdata.tensp}</p>
+            </div>
+            <div className="container py-5 py-24 mx-auto">
               <div className=" mx-auto flex flex-wrap">
                 <img
                   alt="ecommerce"
@@ -200,24 +161,12 @@ const ProductDetail = () => {
                     </span>
                     <div className="flex gap-2">
                       <button
-                        onClick={() => addToCart(quantity)}
+                        onClick={() => addToCart(product, quantity)}
                         className="flex ml-auto text-white bg-green-500 border-0 py-2 px-6 focus:outline-none hover:bg-green-400 rounded"
                       >
                         Thêm vào giỏ
                       </button>
                     </div>
-                    {/* <button className="rounded-full w-10 h-10 bg-gray-200 p-0 border-0 inline-flex items-center justify-center text-gray-500 ml-4">
-                      <svg
-                        fill="currentColor"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        className="w-5 h-5"
-                        viewBox="0 0 24 24"
-                      >
-                        <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" />
-                      </svg>
-                    </button> */}
                   </div>
                 </div>
               </div>

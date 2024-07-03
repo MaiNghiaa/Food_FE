@@ -19,6 +19,8 @@ import ListProducts from "../Pages/ListProducts/ListProducts";
 import Detail from "../Pages/Detail/ProductDetail";
 import ProductDetail from "../Pages/Detail/ProductDetail";
 import Profile from "../Pages/Profile/Profile";
+import Cart from "../Pages/Cart/Cart";
+import Orders from "../Pages/Cart/Orders";
 export const normalRoutes = [PATH_HOME];
 export const authRoutes = [];
 
@@ -53,6 +55,8 @@ function Router() {
         { path: PATH_REGISTER, element: <LoginPage /> },
         { path: PATH_DETAIL, element: <ProductDetail /> },
         { path: PATH_PROFILE, element: <Profile /> },
+        { path: "/cart", element: <Cart /> },
+        { path: "/Orders", element: <Orders /> },
       ],
     },
   ];

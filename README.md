@@ -51,8 +51,6 @@ trangthai,
 )
 
 task
-Logout
-Them san pham vao gio hang(mission, an mua ngay thi them truc tiep 1 san pham vao gio hang , con an vao chi tiet thi them duoc nhieu san pham 1 luc . Tuy nhien tat ca se kiem tra xem co vuot qua so luong dang oc cua chang kh.)
 Kiem tra tinh trang don hang
 
 -- ta cần
@@ -64,7 +62,3 @@ kiem tra nguoi dung user, add them role
 kiem tra don hang, check 3 trang thai
 Xem duoc tien kiem duoc.( can them 1 cot gia nhập hàng )
 So don hang thanh cong, dang xu ly, chua xac nhan
-
-28
-29
-28

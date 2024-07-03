@@ -1,10 +1,10 @@
 export function formatCurrencyVND(price) {
-  if (!price) return "0 ₫"; // Xử lý trường hợp chuỗi rỗng
+  if (!price) return "0 ₫"; // Handle empty string case
 
   const number = parseFloat(price.replace(/[^\d.-]/g, ""));
   if (isNaN(number)) return "0 ₫";
 
-  // Định dạng số thành tiền tệ Việt Nam
+  // Format number to Vietnamese currency
   return number.toLocaleString("vi-VN", {
     style: "currency",
     currency: "VND",

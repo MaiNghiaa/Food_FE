@@ -2,12 +2,33 @@ import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 
 const Navbar = () => {
-  const [token, settoken] = useState(localStorage.getItem("token"));
-  const [Name, setName] = useState(localStorage.getItem("Name"));
-  // const [totalQuantity, settotalQuantity] = useState();
-  // useEffect(() => {
-  //   settotalQuantity(localStorage.setItem("totalQuantity"));
-  // }, [totalQuantity]);
+  const [token, setToken] = useState(localStorage.getItem("token") || null);
+  const [Name, setName] = useState(localStorage.getItem("Name") || null);
+  const [showProfileDropdown, setShowProfileDropdown] = useState(false);
+  const [showDropdown, setShowDropdown] = useState(false);
+
+  const handleLogout = () => {
+    localStorage.clear();
+    setToken(null); // assuming setToken is a function passed as prop
+  };
+
+  useEffect(() => {
+    const tokenFromLocalStorage = localStorage.getItem("token");
+    setToken(tokenFromLocalStorage);
+  }, []);
+
+  const handleProfileDropdownToggle = () => {
+    setShowProfileDropdown(!showProfileDropdown);
+    setShowDropdown(false);
+  };
+  const handleDropdownToggle = () => {
+    if (!token) {
+      alert("Ban can dang nhap");
+      return;
+    }
+    setShowDropdown(!showDropdown);
+    setShowProfileDropdown(false);
+  };
   return (
     <nav className="bg-[#b22830] border-t-[10px] border-[#53382c] pt-14px pb-3 relative top-0 shadow-md ">
       <div className="container mx-auto flex items-end justify-between">
@@ -57,39 +78,60 @@ const Navbar = () => {
                 >
                   <i className="fa fa-sign-in-alt mr-1"></i> Đăng nhập
                 </NavLink>
-                <NavLink
-                  to="/register"
-                  className="btn text-white hover:border-[#CC9554] btn-outline-dark m-2 border-2 border-white px-4 py-2 rounded-md hover:bg-[#CC9554] hover:text-white transition duration-300"
-                >
-                  <i className="fa fa-user-plus mr-1"></i> Đăng kí
-                </NavLink>
               </>
             ) : (
-              <>
-                <NavLink
-                  to="/profile"
-                  className="btn text-white hover:border-[#CC9554] btn-outline-dark m-2 border-2 border-white px-4 py-2 rounded-md hover:bg-[#CC9554] hover:text-white transition duration-300"
-                >
-                  {Name}
-                </NavLink>
+              <div className="relative">
+                {/* Dropdown toggle for Profile */}
                 <button
-                  onClick={() => {
-                    localStorage.removeItem("token");
-                    settoken();
-                  }}
-                  className="btn text-white hover:border-[#CC9554] btn-outline-dark m-2 border-2 border-white px-4 py-2 rounded-md hover:bg-[#CC9554] hover:text-white transition duration-300"
+                  onClick={handleProfileDropdownToggle}
+                  className="btn text-white hover:border-[#CC9554] btn-outline-dark m-2 border-2 border-white px-4 py-2 rounded-md hover:bg-[#CC9554] hover:text-white transition duration-300 relative"
                 >
-                  Logout
+                  {Name} <i className="fas fa-chevron-down ml-1"></i>
                 </button>
-              </>
+                {/* Dropdown content for Profile */}
+                {showProfileDropdown && (
+                  <div className="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-md border border-gray-200 z-10">
+                    <NavLink
+                      to="/profile"
+                      className="block px-4 py-2 text-gray-800 hover:bg-gray-200 w-full text-left"
+                    >
+                      Thông tin cá nhân
+                    </NavLink>
+                    <button
+                      onClick={handleLogout}
+                      className="block px-4 py-2 text-gray-800 hover:bg-gray-200 w-full text-left"
+                    >
+                      Logout
+                    </button>
+                  </div>
+                )}
+              </div>
             )}
-            <NavLink
-              to="/cart"
-              className="btn text-white hover:border-[#CC9554] btn-outline-dark m-2 border-2 border-white px-4 py-2 rounded-md hover:bg-[#CC9554] hover:text-white transition duration-300"
-            >
-              <i className="fa fa-cart-shopping mr-1"></i> Cart{" "}
-              {/* {!totalQuantity ? " " : "(" + totalQuantity + ")"} */}
-            </NavLink>
+            <div className="relative">
+              <button
+                onClick={handleDropdownToggle}
+                className="btn text-white hover:border-[#CC9554] btn-outline-dark m-2 border-2 border-white px-4 py-2 rounded-md hover:bg-[#CC9554] hover:text-white transition duration-300 relative"
+              >
+                <i className="fa fa-cart-shopping mr-1"></i> Giỏ hàng{" "}
+              </button>
+              {/* Dropdown content */}
+              {showDropdown && (
+                <div className="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-md border border-gray-200 z-10">
+                  <NavLink
+                    to="/cart"
+                    className="block px-4 py-2 text-gray-800 hover:bg-gray-200 w-full text-left"
+                  >
+                    Giỏ hàng
+                  </NavLink>
+                  <NavLink
+                    to="/orders"
+                    className="block px-4 py-2 text-gray-800 hover:bg-gray-200 w-full text-left"
+                  >
+                    Đơn mua
+                  </NavLink>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>

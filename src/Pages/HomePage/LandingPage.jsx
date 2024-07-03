@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import SlideShow from "../../Components/Slideshow/SlideShow";
 import Services from "../Services/Services";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -10,34 +10,31 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 
 import { Autoplay, Pagination, Navigation } from "swiper/modules";
+import axios from "axios";
+import { formatDate, formatTime } from "../../Components/finance";
 
 export default function LandingPage() {
-  const [Data, setData] = useState([
-    {
-      img: "./tintuc/tintuc1.jpg",
-      title: "TRONG PHINDI CASSIA CÓ GÌ MÀ SÁNG TẠO ĐẾN THẾ?",
-      day: "24/06/2024",
-      hour: "09:26",
-    },
-    {
-      img: "./tintuc/tintuc1.jpg",
-      title: "TRONG PHINDI CASSIA CÓ GÌ MÀ SÁNG TẠO ĐẾN THẾ?",
-      day: "24/06/2024",
-      hour: "09:26",
-    },
-    {
-      img: "./tintuc/tintuc1.jpg",
-      title: "TRONG PHINDI CASSIA CÓ GÌ MÀ SÁNG TẠO ĐẾN THẾ?",
-      day: "24/06/2024",
-      hour: "09:26",
-    },
-  ]);
-  const [DataimgQuan, setDataimgQuan] = useState([
-    "./hinhanhquan/ha1.jpg",
-    "./hinhanhquan/ha2.jpg",
-    "./hinhanhquan/ha3.jpg",
-    "./hinhanhquan/ha4.jpg",
-  ]);
+  const [Data, setData] = useState();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get("http://localhost:3000/getTintuc");
+        const firstThreeNews = response.data.slice(0, 3);
+        setData(firstThreeNews);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchData();
+  }, []);
+  const DataimgQuan = [
+    "http://localhost:3000/assets/pictureStore/pc1.jpg",
+    "http://localhost:3000/assets/pictureStore/pc2.webp",
+    "http://localhost:3000/assets/pictureStore/pc3.jpg",
+    "http://localhost:3000/assets/pictureStore/pc4.jpg",
+  ];
   return (
     <div className="max-w-[1920px] m-[0_auto] overflow-hidden relative">
       <SlideShow />
@@ -54,17 +51,20 @@ export default function LandingPage() {
             modules={[Autoplay]}
             className="mySwiper w-full"
           >
-            {DataimgQuan.map((itemhaq, index) => {
-              return (
-                <SwiperSlide className="w-full">
-                  <img
-                    src={itemhaq}
-                    alt=""
-                    className="h-[460px] w-full object-cover"
-                  />
-                </SwiperSlide>
-              );
-            })}
+            {DataimgQuan &&
+              DataimgQuan.map((itemhaq, index) => {
+                return (
+                  <div key={index}>
+                    <SwiperSlide className="w-full">
+                      <img
+                        src={itemhaq}
+                        alt=""
+                        className="h-[460px] w-full object-cover"
+                      />
+                    </SwiperSlide>
+                  </div>
+                );
+              })}
           </Swiper>
         </div>
 
@@ -94,38 +94,39 @@ export default function LandingPage() {
                 </NavLink>
               </div>
               <div className="flex flex-col gap-2">
-                {Data.map((item, index) => (
-                  <div key={index} className="mb-[15px]">
-                    <div className="">
-                      <div className="img_tintuc w-[120px] float-left mr-[15px]">
-                        <div className="relative pt-[66.6666666%] overflow-hidden">
-                          <a href="">
-                            <img
-                              src="https://www.highlandscoffee.com.vn/vnt_upload/news/06_2024/_PhinDiCassia/HCO_7745_PHINDI_CASSIA_SOCIAL_WEBSITE_470X314.png"
-                              alt=""
-                              className="absolute top-0 left-0 w-full transition border-0 max-w-full"
-                            />
-                          </a>
+                {Data &&
+                  Data.map((item, index) => (
+                    <div key={index} className="mb-[15px]">
+                      <div className="">
+                        <div className="img_tintuc w-[120px] float-left mr-[15px]">
+                          <div className="relative pt-[66.6666666%] overflow-hidden">
+                            <div>
+                              <img
+                                src={`http://localhost:3000/assets/${item.hinhanh}`}
+                                alt=""
+                                className="absolute top-0 left-0 w-full transition border-0 max-w-full"
+                              />
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                      <div className="caption overflow-hidden">
-                        <div className="title mb-[5px]">
-                          <h3>
-                            <a
-                              href=""
-                              className="text-base block max-h-[48px] font-bold"
-                            >
-                              PHINDI CASSIA - QUẾ ẤM PHIN ÊM, PHONG VỊ ĐỘC ĐÁO
-                            </a>
-                          </h3>
-                        </div>
-                        <div className="date text-[13px] leading-[21px]">
-                          <span className="pl-5 relative">14/06/2024</span>
+                        <div className="caption overflow-hidden">
+                          <div className="title mb-[5px] cursor-default">
+                            <h3>
+                              <div className="text-base block max-h-[48px] font-bold">
+                                {item.name}
+                              </div>
+                            </h3>
+                          </div>
+                          <div className="date text-[13px] leading-[21px]">
+                            <span className="pl-5 relative">
+                              {formatDate(item.day)} {"-"}{" "}
+                              {formatTime(item.hour)}
+                            </span>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
               </div>
               <div className="form">
                 <form>

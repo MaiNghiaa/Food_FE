@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { useState } from "react";
 
 const SignUpForm = ({ setIsLogin }) => {
@@ -6,40 +7,34 @@ const SignUpForm = ({ setIsLogin }) => {
   const [registerPassword, setRegisterPassword] = useState("");
   // const [registerAvatar, setRegisterAvatar] = useState(null); // Updated to hold file object
 
-  const handleRegisterSubmit = (e) => {
+  const handleRegisterSubmit = async (e) => {
     e.preventDefault();
 
     // Basic validation example (you can expand this as needed)
-    if (
-      !registerName ||
-      !registerEmail ||
-      !registerPassword
-      // !registerAvatar
-    ) {
+    if (!registerName || !registerEmail || !registerPassword) {
       alert("Please fill out all required fields.");
       return;
     }
 
-    console.log("Name:", registerName);
-    console.log("Email:", registerEmail);
-    console.log("Password:", registerPassword);
-    setIsLogin(true);
-    // console.log("Avatar File:", registerAvatar);
+    try {
+      const response = await axios.post("http://localhost:3000/register", {
+        ten: registerName,
+        email: registerEmail,
+        password: registerPassword,
+      });
 
-    // Reset state after form submission (clearing inputs)
+      console.log("Đăng ký thành công:", response.data);
+      setIsLogin(true); // Chuyển đến trang đăng nhập sau khi đăng ký thành công
+    } catch (error) {
+      console.error("Lỗi khi đăng ký:", error.response.data);
+      alert("Lỗi khi đăng ký:", error.response.data);
+    }
+
+    // Reset form fields after submission
     setRegisterName("");
     setRegisterEmail("");
     setRegisterPassword("");
-    // setRegisterAvatar(null);
-
-    // Add further logic here to handle registration process (e.g., API calls)
   };
-
-  // const handleAvatarChange = (e) => {
-  //   const file = e.target.files[0];
-  //   console.log(file);
-  //   setRegisterAvatar(file);
-  // };
 
   return (
     <div className="bg-blue-400 text-black rounded-2xl shadow-2xl  flex flex-col w-full md:w-1/3 items-center max-w-4xl transition duration-1000 ease-in">

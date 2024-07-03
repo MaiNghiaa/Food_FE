@@ -13,23 +13,22 @@ const LoginForm = ({ setIsLogin }) => {
     console.log("Email:", loginEmail);
     console.log("Password:", loginPassword);
 
-    setLoginEmail(loginEmail);
-    setLoginPassword(loginPassword);
+    postLogin(loginEmail, loginPassword);
   };
-  useEffect(() => {
+
+  const postLogin = (email, password) => {
     const fetchData = async () => {
       try {
         const response = await axios.post("http://localhost:3000/login", {
-          email: loginEmail,
-          password: loginPassword,
+          email,
+          password,
         });
-        const token = response.data.token;
-        const Name = response.data.Name;
+        const { token, Name } = response.data;
         console.log("Token:", token);
 
-        // Lưu token vào localStorage hoặc Redux state để sử dụng sau này
-        localStorage.setItem("token", token); // Ví dụ lưu vào localStorage
-        localStorage.setItem("Name", Name); // Ví dụ lưu vào localStorage
+        localStorage.setItem("token", token);
+        localStorage.setItem("Name", Name);
+
         navigate("/");
       } catch (err) {
         console.error("Lỗi khi gọi API:", err);
@@ -37,8 +36,7 @@ const LoginForm = ({ setIsLogin }) => {
     };
 
     fetchData();
-  }, [loginEmail, loginPassword]);
-
+  };
   return (
     <div className="bg-white rounded-2xl shadow-2xl flex flex-col w-full md:w-1/3 items-center max-w-4xl transition duration-1000 ease-out">
       <h2 className="p-3 text-3xl font-bold text-pink-400">Hello</h2>
