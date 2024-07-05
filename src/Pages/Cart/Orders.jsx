@@ -1,44 +1,156 @@
-import React from "react";
-import { NavLink } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { formatCurrencyVND } from "../../Components/finance";
 
 const Orders = () => {
+  const [orders, setOrders] = useState([]);
+  const nameuser = localStorage.getItem("Name");
+  const [isOpenDetail, setisOpenDetail] = useState(false);
+  const [idDonhang, setidDonhang] = useState();
+  useEffect(() => {
+    const fetchOrders = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:3000/order/${nameuser}`
+        );
+        setOrders(response.data);
+      } catch (error) {
+        console.error("Error fetching orders:", error);
+      }
+    };
+
+    fetchOrders();
+  }, [nameuser]);
+
+  const updateOrderStatus = async (id, newStatus) => {
+    console.log(id, newStatus);
+    try {
+      await axios.put(`http://localhost:3000/order/${id}`, {
+        trangthai: newStatus,
+      });
+      // Cập nhật trạng thái trong giao diện
+      setOrders(
+        orders.map((order) =>
+          order.iddonhang === id ? { ...order, trangthai: newStatus } : order
+        )
+      );
+    } catch (error) {
+      console.error("Error updating order status:", error);
+    }
+  };
+
   return (
-    <div className="max-w-4xl mx-auto py-6 h-screen">
-      <h1 className="text-3xl font-bold text-center mb-8">Đơn hàng đã đặt</h1>
-      <div className="nav-link py-3 text-blue-400 text-sm flex gap-1">
-        <NavLink to="/">{""}Home</NavLink>
-      </div>
-      {/* Chờ xử lý */}
-      <div className="bg-gray-100 rounded-lg p-4 mb-4">
-        <h2 className="text-xl font-bold mb-2"> chờ xử lý</h2>
-        <div className="flex items-center space-x-2">
-          <div className="w-4 h-4 bg-yellow-500 rounded-full"></div>
-          <p className="text-gray-700">Đơn hàng số #123456</p>
-        </div>
-        {/* Thêm các đơn hàng khác chờ xử lý tại đây */}
-      </div>
+    <div className="max-w-4xl mx-auto py-6">
+      <h1 className="text-3xl font-bold text-center mb-8">Orders</h1>
 
-      {/* Đang xử lý */}
-      <div className="bg-gray-100 rounded-lg p-4 mb-4">
-        <h2 className="text-xl font-bold mb-2">Đơn hàng đang xử lý</h2>
-        <div className="flex items-center space-x-2">
-          <div className="w-4 h-4 bg-blue-500 rounded-full"></div>
-          <p className="text-gray-700">Đơn hàng số #789012</p>
-        </div>
-        {/* Thêm các đơn hàng khác đang xử lý tại đây */}
-      </div>
+      {/* Các trạng thái đơn hàng */}
+      {["Chờ xác nhận", "Đang xử lý", "Đang giao", "Đã giao", "Đã hủy"].map(
+        (status) => (
+          <div key={status} className="bg-gray-100 rounded-lg p-4 mb-4">
+            <h2 className="text-xl font-bold mb-2">{status}</h2>
+            <div className="flex flex-col gap-2">
+              {orders
+                .filter((order) => order.trangthai === status)
+                .map((order) => (
+                  <div key={order.iddonhang} className=" py-4">
+                    <div className="flex items-center space-x-4">
+                      <div
+                        className={`w-4 h-4 ${statusColor[status]} rounded-full`}
+                      ></div>
+                      <p className="text-gray-700">{`Đơn hàng số #${order.iddonhang}`}</p>
+                      {!isOpenDetail ? (
+                        <button
+                          className="py-2 px-3.5 bg-green-300 rounded-md"
+                          onClick={() => {
+                            setisOpenDetail(true);
+                            setidDonhang(order.iddonhang);
+                          }}
+                        >
+                          Xem chi tiết
+                        </button>
+                      ) : (
+                        <button
+                          className="py-2 px-3.5 bg-green-300 rounded-md"
+                          onClick={() => {
+                            setisOpenDetail(false);
+                            setidDonhang(order.iddonhang);
+                          }}
+                        >
+                          Thu gọn
+                        </button>
+                      )}
+                    </div>
 
-      {/* Đã giao */}
-      <div className="bg-gray-100 rounded-lg p-4 mb-4">
-        <h2 className="text-xl font-bold mb-2">Đơn hàng đã giao</h2>
-        <div className="flex items-center space-x-2">
-          <div className="w-4 h-4 bg-green-500 rounded-full"></div>
-          <p className="text-gray-700">Đơn hàng số #345678</p>
-        </div>
-        {/* Thêm các đơn hàng khác đã giao tại đây */}
-      </div>
+                    {/* Chi tiết đơn hàng */}
+                    {isOpenDetail && idDonhang === order.iddonhang && (
+                      <div className="mt-4 flex flex-col gap-3">
+                        {order.details.map((detail) => (
+                          <div
+                            key={detail.iddonhangchitiet}
+                            className="flex items-center space-x-4 "
+                          >
+                            <img
+                              src={`http://localhost:3000/assets/${detail.hinhanh}`}
+                              alt={detail.tensanpham}
+                              className="w-16 h-16 rounded-lg object-cover"
+                            />
+                            <div>
+                              <p className="text-gray-700">
+                                {detail.tensanpham}
+                              </p>
+                              <p className="text-gray-500">{`Số lượng: ${detail.Quantity}`}</p>
+                              <p className="text-gray-500">{`Giá: ${formatCurrencyVND(
+                                detail.price.toString()
+                              )}`}</p>
+                            </div>
+                          </div>
+                        ))}
+                        <p className="text-gray-700">{}</p>
+                      </div>
+                    )}
+                    <div className="block border-[.25px] border-[#cccccc] my-2"></div>
+                    <p>
+                      Tổng giá trị đơn hàng:{" "}
+                      <span>
+                        {formatCurrencyVND(order.tongtien.toString())}
+                      </span>
+                    </p>
+                    {status === "Chờ xác nhận" && (
+                      <button
+                        onClick={() =>
+                          updateOrderStatus(order.iddonhang, "Đã hủy")
+                        }
+                        className="mt-4 bg-red-500 text-white px-4 py-2 rounded-md"
+                      >
+                        Huỷ đơn
+                      </button>
+                    )}
+                    {status === "Đang giao" && (
+                      <button
+                        onClick={() =>
+                          updateOrderStatus(order.iddonhang, "Đã giao")
+                        }
+                        className="mt-4 bg-green-500 text-white px-4 py-2 rounded-md"
+                      >
+                        Đã nhận hàng
+                      </button>
+                    )}
+                  </div>
+                ))}
+            </div>
+          </div>
+        )
+      )}
     </div>
   );
+};
+
+const statusColor = {
+  "Chờ xác nhận": "bg-yellow-500",
+  "Đang xử lý": "bg-blue-500",
+  "Đang giao": "bg-orange-500",
+  "Đã giao": "bg-green-500",
+  "Đã hủy": "bg-red-500",
 };
 
 export default Orders;

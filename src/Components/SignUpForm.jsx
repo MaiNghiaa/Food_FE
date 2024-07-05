@@ -21,6 +21,7 @@ const SignUpForm = ({ setIsLogin }) => {
         ten: registerName,
         email: registerEmail,
         password: registerPassword,
+        role: "Customer",
       });
 
       console.log("Đăng ký thành công:", response.data);

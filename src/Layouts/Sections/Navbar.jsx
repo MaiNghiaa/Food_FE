@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, Navigate, useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const [token, setToken] = useState(localStorage.getItem("token") || null);
   const [Name, setName] = useState(localStorage.getItem("Name") || null);
   const [showProfileDropdown, setShowProfileDropdown] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
-
+  const navigate = useNavigate();
   const handleLogout = () => {
     localStorage.clear();
     setToken(null); // assuming setToken is a function passed as prop
+    navigate("/");
   };
 
   useEffect(() => {

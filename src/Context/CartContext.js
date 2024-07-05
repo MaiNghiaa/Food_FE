@@ -59,13 +59,12 @@ export const CartProvider = ({ children }) => {
     const product = cart.find((item) => item.idsp === productId);
     if (!product) return;
 
-    if (newQuantity <= 0) {
-      removeFromCart(productId);
-      return;
-    }
-
     if (newQuantity > product.soluong) {
       alert("Bạn không thể mua quá số lượng của cửa hàng");
+      return;
+    }
+    if (newQuantity <= 0) {
+      removeFromCart(productId);
       return;
     }
 

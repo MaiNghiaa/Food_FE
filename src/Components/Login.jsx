@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 
 const LoginForm = ({ setIsLogin }) => {
   const navigate = useNavigate(); // Sử dụng useNavigate hook để truy cập vào navigate của router
@@ -65,7 +65,11 @@ const LoginForm = ({ setIsLogin }) => {
         </button>
       </form>
       <div className="inline-block border-[1px] justify-center w-20 border-blue-400 border-solid"></div>
-      <p className="text-blue-400 mt-4 text-sm">Don't have an account?</p>
+      <Link to="/adminLogin">
+        <p className="text-blue-400 mt-4 text-sm">
+          Đăng nhập tư cách quản trị viên
+        </p>
+      </Link>
       <p
         className="text-blue-400 mb-4 text-sm font-medium cursor-pointer"
         onClick={() => setIsLogin(false)}

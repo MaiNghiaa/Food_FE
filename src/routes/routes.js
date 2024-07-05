@@ -21,6 +21,12 @@ import ProductDetail from "../Pages/Detail/ProductDetail";
 import Profile from "../Pages/Profile/Profile";
 import Cart from "../Pages/Cart/Cart";
 import Orders from "../Pages/Cart/Orders";
+import AdminDashboard from "../Admin/AdminDashboard";
+import AdminLogin from "../Components/AdminLogin";
+import AdminLayout from "../Layouts/AdminLayout";
+import AdminProducts from "../Pages/Admin/AdminProducts";
+import AdminNews from "../Pages/Admin/AdminNews/AdminNews";
+import TypeFood from "../Pages/Admin/Typeefood/TypeFood";
 export const normalRoutes = [PATH_HOME];
 export const authRoutes = [];
 
@@ -57,6 +63,34 @@ function Router() {
         { path: PATH_PROFILE, element: <Profile /> },
         { path: "/cart", element: <Cart /> },
         { path: "/Orders", element: <Orders /> },
+        { path: "/adminLogin", element: <AdminLogin /> },
+
+        // Route admin
+      ],
+    },
+    {
+      element: (
+        <Suspense fallback={<p className="suspense_loading">Loading...</p>}>
+          <TransitionGroup>
+            <CSSTransition
+              key={location.key || ""}
+              timeout={{ enter: 300, exit: 300 }}
+              classNames="fade"
+            >
+              <AdminLayout>
+                <AdminDashboard />
+              </AdminLayout>
+            </CSSTransition>
+          </TransitionGroup>
+        </Suspense>
+      ),
+      children: [
+        { path: "/admin", element: <AdminDashboard /> },
+        { path: "/admin/products", element: <AdminProducts /> },
+        { path: "/admin/News", element: <AdminNews /> },
+        { path: "/admin/typeFood", element: <TypeFood /> },
+
+        // Route admin
       ],
     },
   ];

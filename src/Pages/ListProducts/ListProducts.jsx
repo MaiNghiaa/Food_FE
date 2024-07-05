@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { NavLink, useNavigate } from "react-router-dom";
-import { useCart } from "../../Context/CartContext";
-import { formatCurrencyVND } from "../../Components/finance";
+import { useCart } from "../../../Context/CartContext";
+import { formatCurrencyVND } from "../../../Components/finance";
 import Modal from "react-modal";
 
 const ListProduct = () => {
@@ -75,7 +75,7 @@ const ListProduct = () => {
   const moreInfo = () =>
     setVisibleCount((prevVisibleCount) => prevVisibleCount + 3);
   const lessInfo = () => setVisibleCount(6);
-
+  console.log(data);
   return (
     <div className="list-product py-11">
       <div className="news-wrapper px-[15px] max-w-[1200px] mx-auto">
@@ -122,18 +122,24 @@ const ListProduct = () => {
                     <span>{formatCurrencyVND(product.giaban)}</span>
                   </div>
                   <div className="action flex items-center gap-2 px-3 w-full pb-4">
-                    <button
-                      onClick={() => onClickDetail(product)}
-                      className="whitespace-nowrap flex-1 hover:text-white hover:border-[#b22830] hover:bg-[#b22830] inline-block text-[12px] leading-5 border-[1px] border-solid border-[#cc9554] py-2 px-3 rounded-[5px] text-[#cc9554] uppercase transition"
-                    >
-                      Chi tiết
-                    </button>
-                    <button
-                      onClick={() => onBuynow(product)}
-                      className="whitespace-nowrap flex-1 hover:text-white hover:border-[#b22830] hover:bg-[#b22830] inline-block text-[12px] leading-5 border-[1px] border-solid border-[#cc9554] py-2 px-3 rounded-[5px] text-[#cc9554] uppercase transition"
-                    >
-                      Mua ngay
-                    </button>
+                    {product.soluong === 0 ? (
+                      <p>Tạm thời hết hàng</p>
+                    ) : (
+                      <>
+                        <button
+                          onClick={() => onClickDetail(product)}
+                          className="whitespace-nowrap flex-1 hover:text-white hover:border-[#b22830] hover:bg-[#b22830] inline-block text-[12px] leading-5 border-[1px] border-solid border-[#cc9554] py-2 px-3 rounded-[5px] text-[#cc9554] uppercase transition"
+                        >
+                          Chi tiết
+                        </button>
+                        <button
+                          onClick={() => onBuynow(product)}
+                          className="whitespace-nowrap flex-1 hover:text-white hover:border-[#b22830] hover:bg-[#b22830] inline-block text-[12px] leading-5 border-[1px] border-solid border-[#cc9554] py-2 px-3 rounded-[5px] text-[#cc9554] uppercase transition"
+                        >
+                          Mua ngay
+                        </button>
+                      </>
+                    )}
                   </div>
                 </div>
               ))}
