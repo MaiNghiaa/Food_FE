@@ -26,7 +26,9 @@ import AdminLogin from "../Components/AdminLogin";
 import AdminLayout from "../Layouts/AdminLayout";
 import AdminProducts from "../Pages/Admin/AdminProducts";
 import AdminNews from "../Pages/Admin/AdminNews/AdminNews";
-import TypeFood from "../Pages/Admin/Typeefood/TypeFood";
+import TypeFood from "../Pages/Admin/AdminTypes/AdminTypes";
+import OrdersManagerment from "../Pages/Admin/Donhang/OrdersManagerment";
+import ManagermentAccounts from "../Pages/Admin/Accounts/ManagermentAccounts";
 export const normalRoutes = [PATH_HOME];
 export const authRoutes = [];
 
@@ -89,6 +91,11 @@ function Router() {
         { path: "/admin/products", element: <AdminProducts /> },
         { path: "/admin/News", element: <AdminNews /> },
         { path: "/admin/typeFood", element: <TypeFood /> },
+        { path: "/admin/Donhang", element: <OrdersManagerment /> },
+        {
+          path: "/admin/Managermentcustomers",
+          element: <ManagermentAccounts />,
+        },
 
         // Route admin
       ],

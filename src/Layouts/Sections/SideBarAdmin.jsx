@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 export default function SideBarAdmin() {
   return (
-    <div className="bg-gray-800 text-white w-64 flex flex-col ">
+    <div className="bg-gray-800 text-white w-64 flex flex-col h-screen ">
       <div className="flex items-center justify-center h-20 border-b border-gray-700">
         <h1 className="text-2xl font-bold">Admin Panel</h1>
       </div>
@@ -19,10 +19,18 @@ export default function SideBarAdmin() {
           </li>
           <li>
             <Link
+              to="/admin/Donhang"
+              className="block py-2 px-4 hover:bg-gray-700 transition duration-200"
+            >
+              Đơn hàng
+            </Link>
+          </li>
+          <li>
+            <Link
               to="/admin/products"
               className="block py-2 px-4 hover:bg-gray-700 transition duration-200"
             >
-              Products
+              Sản phẩm
             </Link>
           </li>
           <li>
@@ -50,9 +58,11 @@ export default function SideBarAdmin() {
             </Link>
           </li>
           <li>
-            <button className="block py-2 px-4 hover:bg-gray-700 transition duration-200">
-              Logout
-            </button>
+            <div>
+              <button className="block py-2 px-4 hover:bg-gray-700 transition duration-200">
+                Logout
+              </button>
+            </div>
           </li>
         </ul>
       </nav>

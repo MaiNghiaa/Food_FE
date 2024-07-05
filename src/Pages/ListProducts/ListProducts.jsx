@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { NavLink, useNavigate } from "react-router-dom";
-import { useCart } from "../../../Context/CartContext";
-import { formatCurrencyVND } from "../../../Components/finance";
+import { useCart } from "../../Context/CartContext";
+import { formatCurrencyVND } from "../../Components/finance";
 import Modal from "react-modal";
 
 const ListProduct = () => {
