@@ -1,11 +1,18 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const AdminTypes = () => {
   const [types, setTypes] = useState([]);
   const [newType, setNewType] = useState("");
   const [editType, setEditType] = useState(null);
-
+  const navigate = useNavigate();
+  const roleuser = localStorage.getItem("role");
+  useEffect(() => {
+    if (roleuser === "Customer") {
+      navigate("/");
+    }
+  }, [navigate, roleuser]);
   useEffect(() => {
     fetchData();
   }, []);

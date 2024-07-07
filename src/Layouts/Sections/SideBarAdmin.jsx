@@ -1,7 +1,10 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function SideBarAdmin() {
+  const navigate = useNavigate();
+  const [token, setToken] = useState(localStorage.getItem("token") || null);
+  const [Name, setName] = useState(localStorage.getItem("Name") || null);
   return (
     <div className="bg-gray-800 text-white w-64 flex flex-col h-screen ">
       <div className="flex items-center justify-center h-20 border-b border-gray-700">
@@ -59,7 +62,14 @@ export default function SideBarAdmin() {
           </li>
           <li>
             <div>
-              <button className="block py-2 px-4 hover:bg-gray-700 transition duration-200">
+              <button
+                onClick={() => {
+                  localStorage.clear();
+                  setToken(null); // assuming setToken is a function passed as prop
+                  navigate("adminLogin");
+                }}
+                className="block py-2 px-4 hover:bg-gray-700 transition duration-200"
+              >
                 Logout
               </button>
             </div>

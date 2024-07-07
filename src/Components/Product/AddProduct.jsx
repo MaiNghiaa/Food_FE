@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 
 export default function AddProduct({ close }) {
@@ -11,6 +11,7 @@ export default function AddProduct({ close }) {
     thuonghieu: "",
     hinhanh: null,
   });
+  const [Type, setType] = useState();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -21,6 +22,18 @@ export default function AddProduct({ close }) {
     setProduct({ ...product, hinhanh: e.target.files[0] });
   };
 
+  const fetchData = async () => {
+    try {
+      const response = await axios.get("http://localhost:3000/getType");
+      setType(response.data);
+      console.log(response.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  useEffect(() => {
+    fetchData();
+  }, []);
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -64,16 +77,22 @@ export default function AddProduct({ close }) {
             onChange={handleChange}
             className="border border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:ring-1 focus:ring-blue-500"
           />
-          <input
-            type="number"
+          <select
             name="idType"
-            placeholder="Loại sản phẩm"
             value={product.idType}
             onChange={handleChange}
             className="border border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:ring-1 focus:ring-blue-500"
-          />
+          >
+            {Type &&
+              Type.map((item) => (
+                <option key={item.idType} value={item.idType}>
+                  {item.type_name}
+                </option>
+              ))}
+          </select>
+
           <input
-            type="text"
+            type="number"
             name="giaban"
             placeholder="Giá bán"
             value={product.giaban}

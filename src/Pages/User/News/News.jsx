@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./News.css";
 import axios from "axios";
-import { formatDate, formatTime } from "../../Components/Common/finance";
+import { formatDate, formatTime } from "../../../Components/Common/finance";
 export default function News() {
   const [Data, setData] = useState([]);
   const [Error, setError] = useState();
@@ -15,7 +15,7 @@ export default function News() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/Tintuc");
+        const response = await axios.get("http://localhost:3000/getTintuc");
         setData(response.data);
       } catch (err) {
         setError(err);

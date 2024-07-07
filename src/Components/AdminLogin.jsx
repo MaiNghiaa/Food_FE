@@ -24,12 +24,12 @@ const AdminLogin = ({ setIsLogin }) => {
           email,
           password,
         });
-        const { token, Name } = response.data;
-        console.log("Token:", token);
+        const { token, Name, role } = response.data;
+        console.log(role);
 
         localStorage.setItem("token", token);
         localStorage.setItem("Name", Name);
-
+        localStorage.setItem("role", role);
         navigate("/admin");
       } catch (err) {
         console.error("Lỗi khi gọi API:", err);

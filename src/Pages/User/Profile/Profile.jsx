@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment } from "react";
-import { formatDate, formatTime } from "../../Components/Common/finance";
+import { formatDate, formatTime } from "../../../Components/Common/finance";
 
 export default function Profile() {
   const [dataprofile, setdataprofile] = useState();

@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { formatCurrencyVND } from "../../Components/finance";
+import { formatCurrencyVND } from "../../Components/Common/finance";
 
 const Orders = () => {
   const [orders, setOrders] = useState([]);
   const nameuser = localStorage.getItem("Name");
-  const [isOpenDetail, setisOpenDetail] = useState(false);
-  const [idDonhang, setidDonhang] = useState();
+  const [openDetails, setOpenDetails] = useState({});
+
   useEffect(() => {
     const fetchOrders = async () => {
       try {
@@ -23,7 +23,6 @@ const Orders = () => {
   }, [nameuser]);
 
   const updateOrderStatus = async (id, newStatus) => {
-    console.log(id, newStatus);
     try {
       await axios.put(`http://localhost:3000/order/${id}`, {
         trangthai: newStatus,
@@ -37,6 +36,13 @@ const Orders = () => {
     } catch (error) {
       console.error("Error updating order status:", error);
     }
+  };
+
+  const toggleDetail = (id) => {
+    setOpenDetails((prev) => ({
+      ...prev,
+      [id]: !prev[id],
+    }));
   };
 
   return (
@@ -58,31 +64,18 @@ const Orders = () => {
                         className={`w-4 h-4 ${statusColor[status]} rounded-full`}
                       ></div>
                       <p className="text-gray-700">{`Đơn hàng số #${order.iddonhang}`}</p>
-                      {!isOpenDetail ? (
-                        <button
-                          className="py-2 px-3.5 bg-green-300 rounded-md"
-                          onClick={() => {
-                            setisOpenDetail(true);
-                            setidDonhang(order.iddonhang);
-                          }}
-                        >
-                          Xem chi tiết
-                        </button>
-                      ) : (
-                        <button
-                          className="py-2 px-3.5 bg-green-300 rounded-md"
-                          onClick={() => {
-                            setisOpenDetail(false);
-                            setidDonhang(order.iddonhang);
-                          }}
-                        >
-                          Thu gọn
-                        </button>
-                      )}
+                      <button
+                        className="py-2 px-3.5 bg-green-300 rounded-md"
+                        onClick={() => toggleDetail(order.iddonhang)}
+                      >
+                        {openDetails[order.iddonhang]
+                          ? "Thu gọn"
+                          : "Xem chi tiết"}
+                      </button>
                     </div>
 
                     {/* Chi tiết đơn hàng */}
-                    {isOpenDetail && idDonhang === order.iddonhang && (
+                    {openDetails[order.iddonhang] && (
                       <div className="mt-4 flex flex-col gap-3">
                         {order.details.map((detail) => (
                           <div

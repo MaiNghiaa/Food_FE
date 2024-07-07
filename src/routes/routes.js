@@ -21,7 +21,7 @@ import ProductDetail from "../Pages/Detail/ProductDetail";
 import Profile from "../Pages/Profile/Profile";
 import Cart from "../Pages/Cart/Cart";
 import Orders from "../Pages/Cart/Orders";
-import AdminDashboard from "../Admin/AdminDashboard";
+import AdminDashboard from "../Pages/Admin/AdminDashboard";
 import AdminLogin from "../Components/AdminLogin";
 import AdminLayout from "../Layouts/AdminLayout";
 import AdminProducts from "../Pages/Admin/AdminProducts";
@@ -29,6 +29,7 @@ import AdminNews from "../Pages/Admin/AdminNews/AdminNews";
 import TypeFood from "../Pages/Admin/AdminTypes/AdminTypes";
 import OrdersManagerment from "../Pages/Admin/Donhang/OrdersManagerment";
 import ManagermentAccounts from "../Pages/Admin/Accounts/ManagermentAccounts";
+import UserTable from "../Pages/Admin/Accounts/UserTable";
 export const normalRoutes = [PATH_HOME];
 export const authRoutes = [];
 
@@ -94,7 +95,7 @@ function Router() {
         { path: "/admin/Donhang", element: <OrdersManagerment /> },
         {
           path: "/admin/Managermentcustomers",
-          element: <ManagermentAccounts />,
+          element: <UserTable />,
         },
 
         // Route admin

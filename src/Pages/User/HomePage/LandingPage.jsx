@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import SlideShow from "../../Components/Slideshow/SlideShow";
+import SlideShow from "../../../Components/Slideshow/SlideShow";
 import Services from "../Services/Services";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { NavLink } from "react-router-dom";
@@ -9,9 +9,9 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 
-import { Autoplay } from "swiper/modules";
+import { Autoplay, Pagination, Navigation } from "swiper/modules";
 import axios from "axios";
-import { formatDate, formatTime } from "../../Components/Common/finance";
+import { formatDate, formatTime } from "../../../Components/Common/finance";
 
 export default function LandingPage() {
   const [Data, setData] = useState();
@@ -19,7 +19,7 @@ export default function LandingPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/Tintuc");
+        const response = await axios.get("http://localhost:3000/getTintuc");
         const firstThreeNews = response.data.slice(0, 3);
         setData(firstThreeNews);
       } catch (error) {
@@ -29,14 +29,12 @@ export default function LandingPage() {
 
     fetchData();
   }, []);
-
   const DataimgQuan = [
     "http://localhost:3000/assets/pictureStore/pc1.jpg",
     "http://localhost:3000/assets/pictureStore/pc2.webp",
     "http://localhost:3000/assets/pictureStore/pc3.jpg",
     "http://localhost:3000/assets/pictureStore/pc4.jpg",
   ];
-
   return (
     <div className="max-w-[1920px] m-[0_auto] overflow-hidden relative">
       <SlideShow />
@@ -54,15 +52,19 @@ export default function LandingPage() {
             className="mySwiper w-full"
           >
             {DataimgQuan &&
-              DataimgQuan.map((itemhaq, index) => (
-                <SwiperSlide key={index} className="w-full">
-                  <img
-                    src={itemhaq}
-                    alt=""
-                    className="h-[460px] w-full object-cover"
-                  />
-                </SwiperSlide>
-              ))}
+              DataimgQuan.map((itemhaq, index) => {
+                return (
+                  <div key={index}>
+                    <SwiperSlide className="w-full">
+                      <img
+                        src={itemhaq}
+                        alt=""
+                        className="h-[460px] w-full object-cover"
+                      />
+                    </SwiperSlide>
+                  </div>
+                );
+              })}
           </Swiper>
         </div>
 
@@ -76,17 +78,17 @@ export default function LandingPage() {
             backgroundRepeat: "no-repeat",
           }}
         >
-          <div className="py-[55px] px-[15px] h-[auto]">
-            <div className="pl-[100px] max-w-[585px] w-full float-left">
+          <div className=" py-[55px] px-[15px] h-[auto]">
+            <div className="pl-[100px] max-w-[585px] w-full float-left ">
               <div className="toptitle mb-[15px] flex items-center justify-between">
                 <h2 className="block text-xl font-bold uppercase font-custom whitespace-nowrap">
                   TIN MỚI NHẤT
                 </h2>
                 <NavLink
-                  className="nav-link block text-sm font-normal underline whitespace-nowrap"
+                  className="nav-link block text-sm font-normal  underline whitespace-nowrap"
                   to="/news"
                 >
-                  <span className="pr-2.5 relative whitespace-nowrap">
+                  <span className="pr-2.5 relative  whitespace-nowrap">
                     Xem toàn bộ
                   </span>
                 </NavLink>
@@ -94,7 +96,7 @@ export default function LandingPage() {
               <div className="flex flex-col gap-2">
                 {Data &&
                   Data.map((item, index) => (
-                    <div key={item.id || index} className="mb-[15px]">
+                    <div key={index} className="mb-[15px]">
                       <div className="">
                         <div className="img_tintuc w-[120px] float-left mr-[15px]">
                           <div className="relative pt-[66.6666666%] overflow-hidden">
@@ -110,9 +112,9 @@ export default function LandingPage() {
                         <div className="caption overflow-hidden">
                           <div className="title mb-[5px] cursor-default">
                             <h3>
-                              <p className="text-base block max-h-[48px] font-bold">
+                              <div className="text-base block max-h-[48px] font-bold">
                                 {item.name}
-                              </p>
+                              </div>
                             </h3>
                           </div>
                           <div className="date text-[13px] leading-[21px]">

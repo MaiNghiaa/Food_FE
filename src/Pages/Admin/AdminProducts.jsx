@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import AddProduct from "../../Components/Product/AddProduct";
 import UpdateProduct from "../../Components/Product/UpdateProduct";
+import { useNavigate } from "react-router-dom";
 
 export default function AdminProducts() {
   const [data, setData] = useState([]);
@@ -17,6 +18,13 @@ export default function AdminProducts() {
   useEffect(() => {
     fetchData();
   }, []);
+  const navigate = useNavigate();
+  const roleuser = localStorage.getItem("role");
+  useEffect(() => {
+    if (roleuser === "Customer") {
+      navigate("/");
+    }
+  }, [navigate, roleuser]);
 
   const fetchData = async () => {
     try {

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { useCart } from "../../Context/CartContext";
 
-import { formatCurrencyVND } from "../../Components/finance";
+import { formatCurrencyVND } from "../../Components/Common/finance";
 const ProductDetail = () => {
   const [DetailProduct, setDetail] = useState();
   const [Error, setError] = useState();

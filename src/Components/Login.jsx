@@ -23,10 +23,12 @@ const LoginForm = ({ setIsLogin }) => {
           email,
           password,
         });
-        const { token, Name } = response.data;
+        const { token, Name, role } = response.data;
+        console.log(role);
         console.log("Token:", token);
-
+        localStorage.setItem("role", role);
         localStorage.setItem("token", token);
+
         localStorage.setItem("Name", Name);
 
         navigate("/");

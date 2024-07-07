@@ -39,11 +39,11 @@ function Slideshow() {
         >
           <div className="max-w-[1200px] mx-auto px-[15px] flex flex-col md:flex-row items-center justify-around gap-10 my-10">
             <div className="captionslideshow flex-1 w-full md:w-[585px] md:order-1 order-2">
-              <p className="title mb-5">
+              <div className="title mb-5">
                 <h3 className="text-3xl md:text-4xl leading-[48px] uppercase font-bold text-[#CC9554] hover:text-[#b22830] transition">
                   {img.name}
                 </h3>
-              </p>
+              </div>
               <div className="desc text-lg font-bold mb-10 text-[#CC9554]">
                 {img.title}
               </div>

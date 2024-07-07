@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import { useCart } from "../../Context/CartContext";
-import { formatCurrencyVND } from "../../Components/finance";
+import { formatCurrencyVND } from "../../Components/Common/finance";
 import axios from "axios";
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 
 const CartPage = () => {
   const { cart, removeFromCart, confirmCart, updateQuantity, clearCart } =
     useCart();
   const [showForm, setShowForm] = useState(false);
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     diachinhan: "",
     tennguoinhan: "",
@@ -39,6 +40,13 @@ const CartPage = () => {
   };
 
   const handleOrderSubmit = async (e) => {
+    if (
+      !formData.diachinhan ||
+      !formData.tennguoinhan ||
+      !formData.sdtnguoinhan
+    ) {
+      alert("ban can nhap day dur");
+    }
     e.preventDefault();
     const data = {
       cart: cart,
@@ -52,7 +60,7 @@ const CartPage = () => {
     };
     console.log(data);
     await postData(data);
-    Navigate("/Orders");
+    navigate("/Orders");
   };
   const handleIncreaseQuantity = (productId) => {
     const product = cart.find((item) => item.idsp === productId);

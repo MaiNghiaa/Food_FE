@@ -1,11 +1,18 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export default function OrdersManagement() {
   const [currentStatus, setCurrentStatus] = useState("Chờ xác nhận");
   const [orders, setOrders] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
-
+  const navigate = useNavigate();
+  const roleuser = localStorage.getItem("role");
+  useEffect(() => {
+    if (roleuser === "Customer") {
+      navigate("/");
+    }
+  }, [navigate, roleuser]);
   useEffect(() => {
     fetchOrders();
   }, []);

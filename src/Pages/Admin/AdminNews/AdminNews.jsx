@@ -1,7 +1,8 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
-import { formatDate } from "../../../Components/finance";
-import AddNewsForm from "../../../Components/AddNewsForm";
+import { formatDate } from "../../../Components/Common/finance";
+import AddNewsForm from "../../../Components/FormTintuc/AddNewsForm";
+import { useNavigate } from "react-router-dom";
 
 export default function AdminNews() {
   const [news, setNews] = useState([]);
@@ -12,7 +13,13 @@ export default function AdminNews() {
   const [showModalEdit, setshowModalEdit] = useState(false);
   const [editingNews, setEditingNews] = useState(null);
   const [showModalCreate, setshowModalCreate] = useState(false);
-
+  const navigate = useNavigate();
+  const roleuser = localStorage.getItem("role");
+  useEffect(() => {
+    if (roleuser === "Customer") {
+      navigate("/");
+    }
+  }, [navigate, roleuser]);
   useEffect(() => {
     fetchData();
   }, []);
