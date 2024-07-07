@@ -201,7 +201,7 @@ export default function AdminProducts() {
           )
         )}
       </div>
-      {isOpenAdd && <AddProduct close={closeCreate} />}
+      {isOpenAdd && <AddProduct close={() => closeCreate()} />}
       {isOpenUpdate && (
         <UpdateProduct
           product={selectedProduct}

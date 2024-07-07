@@ -5,7 +5,7 @@ export default function AddProduct({ close }) {
   const [product, setProduct] = useState({
     tensp: "",
     soluong: "",
-    idType: "",
+    idType: "1",
     giaban: "",
     motasanpham: "",
     thuonghieu: "",
@@ -55,7 +55,9 @@ export default function AddProduct({ close }) {
       close();
     }
   };
-
+  const closeform = () => {
+    close();
+  };
   return (
     <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-800 bg-opacity-50">
       <div className="bg-white p-8 rounded-md shadow-md w-full md:w-4/5 lg:w-3/4 xl:w-2/3">
@@ -86,11 +88,10 @@ export default function AddProduct({ close }) {
             {Type &&
               Type.map((item) => (
                 <option key={item.idType} value={item.idType}>
-                  {item.type_name}
+                  {item.type_name} {item.idType}
                 </option>
               ))}
           </select>
-
           <input
             type="number"
             name="giaban"
@@ -125,6 +126,12 @@ export default function AddProduct({ close }) {
             className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
           >
             Thêm sản phẩm
+          </button>{" "}
+          <button
+            className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600"
+            onClick={close}
+          >
+            Huy
           </button>
         </form>
       </div>

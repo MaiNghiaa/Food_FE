@@ -18,7 +18,6 @@ const ListProduct = () => {
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 9;
-  const [visibleCount, setVisibleCount] = useState(6);
   const [modalLogin, setModalLogin] = useState(false);
   const token = localStorage.getItem("token");
 
@@ -72,10 +71,7 @@ const ListProduct = () => {
   const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
-  const moreInfo = () =>
-    setVisibleCount((prevVisibleCount) => prevVisibleCount + 3);
-  const lessInfo = () => setVisibleCount(6);
-  console.log(data);
+
   return (
     <div className="list-product py-11">
       <div className="news-wrapper px-[15px] max-w-[1200px] mx-auto">
@@ -87,8 +83,8 @@ const ListProduct = () => {
               </h1>
             </div>
             <div className="nav-link py-3 text-blue-400 text-sm flex gap-1">
-              <NavLink to="/">{""}Home</NavLink>
-              <p className="text-black">\ {"List product"}</p>
+              <NavLink to="/">Home</NavLink>
+              <p className="text-black">\ List product</p>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6">
               {currentItems.map((product, index) => (
@@ -104,7 +100,7 @@ const ListProduct = () => {
                       <img
                         src={`http://localhost:3000/assets/${product.hinhanh}`}
                         alt={product.tensp}
-                        className="absolute top-0 left-0 w-full h-full object-cover transition "
+                        className="absolute top-0 left-0 w-full h-full object-cover transition"
                       />
                     </div>
                   </div>
@@ -144,6 +140,24 @@ const ListProduct = () => {
                 </div>
               ))}
             </div>
+            <div className="flex justify-center mt-4">
+              {Array.from(
+                { length: Math.ceil(filteredData.length / itemsPerPage) },
+                (_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => paginate(index + 1)}
+                    className={`mx-1 px-4 py-2 rounded-md focus:outline-none ${
+                      currentPage === index + 1
+                        ? "bg-blue-500 text-white"
+                        : "bg-gray-200 text-gray-600 hover:bg-gray-300"
+                    }`}
+                  >
+                    {index + 1}
+                  </button>
+                )
+              )}
+            </div>
           </div>
         </div>
       </div>
@@ -181,75 +195,3 @@ const ListProduct = () => {
 };
 
 export default ListProduct;
-
-// {
-/* <div className="filter mb-6 flex items-center gap-4">
-                <div className="mb-4 flex-2">
-                  <label>
-                    <input
-                      type="radio"
-                      value="type"
-                      checked={selectedFilter === "type"}
-                      onChange={handleFilterChange}
-                    />
-                    Type
-                  </label>
-                  <label className="ml-4">
-                    <input
-                      type="radio"
-                      value="title"
-                      checked={selectedFilter === "title"}
-                      onChange={handleFilterChange}
-                    />
-                    Title
-                  </label>
-                  <label className="ml-4">
-                    <input
-                      type="radio"
-                      value="price"
-                      checked={selectedFilter === "price"}
-                      onChange={handleFilterChange}
-                    />
-                    Price
-                  </label>
-                </div>
-                <div className="flex-1">
-                  {selectedFilter === "type" && (
-                    <input
-                      type="text"
-                      placeholder="Filter by type"
-                      value={filterType}
-                      onChange={handleFilterTypeChange}
-                      className="p-2 border rounded mb-4 w-full border-[#cc9554]"
-                    />
-                  )}
-                  {selectedFilter === "title" && (
-                    <input
-                      type="text"
-                      placeholder="Filter by title"
-                      value={filterTitle}
-                      onChange={handleFilterTitleChange}
-                      className="p-2 border rounded mb-4 w-full border-[#cc9554]"
-                    />
-                  )}
-                  {selectedFilter === "price" && (
-                    <div className="mb-4">
-                      <label>Min Price: </label>
-                      <input
-                        type="number"
-                        value={minPrice}
-                        onChange={handleMinPriceChange}
-                        className="p-2 border rounded mb-4 w-full border-[#cc9554]"
-                      />
-                      <label>Max Price: </label>
-                      <input
-                        type="number"
-                        value={maxPrice}
-                        onChange={handleMaxPriceChange}
-                        className="p-2 border rounded mb-4 w-full border-[#cc9554]"
-                      />
-                    </div>
-                  )}
-                </div>
-              </div> */
-// }
