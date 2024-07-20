@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useCart } from "../../Context/CartContext";
 import { formatCurrencyVND } from "../../Components/Common/finance";
 import axios from "axios";
@@ -7,6 +7,7 @@ import { Navigate, useNavigate } from "react-router-dom";
 const CartPage = () => {
   const { cart, removeFromCart, confirmCart, updateQuantity, clearCart } =
     useCart();
+  const [Data, setData] = useState();
   const [showForm, setShowForm] = useState(false);
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -15,6 +16,21 @@ const CartPage = () => {
     sdtnguoinhan: "",
   });
   const name = localStorage.getItem("Name");
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get("http://localhost:3000/getProduct");
+        setData(response.data);
+      } catch (err) {
+        console.log(err);
+      } finally {
+        console.log(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+  // console.log(Data);
   const postData = async (data) => {
     try {
       const response = await axios.post("http://localhost:3000/order", data);
@@ -62,13 +78,21 @@ const CartPage = () => {
     await postData(data);
     navigate("/Orders");
   };
-  const handleIncreaseQuantity = (productId) => {
+  const handleIncreaseQuantity = async (productId) => {
+    const productdatasoluong = Data.find((item) => item.idsp === productId);
+    console.log(productdatasoluong);
     const product = cart.find((item) => item.idsp === productId);
     if (product) {
       const newQuantity = product.quantity + 1;
-      updateQuantity(productId, newQuantity);
+      if (newQuantity > productdatasoluong.soluong) {
+        alert("Banj khong the them qua so luong cua san pham");
+        return;
+      } else {
+        updateQuantity(productId, newQuantity);
+      }
     }
   };
+  // console.log(Data);
 
   const handleDecreaseQuantity = (productId) => {
     const product = cart.find((item) => item.idsp === productId);

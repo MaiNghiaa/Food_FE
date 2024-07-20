@@ -8,7 +8,7 @@ export default function SideBarAdmin() {
   return (
     <div className="bg-gray-800 text-white w-64 flex flex-col h-screen ">
       <div className="flex items-center justify-center h-20 border-b border-gray-700">
-        <h1 className="text-2xl font-bold">Admin Panel</h1>
+        <h1 className="text-2xl font-bold">Admin</h1>
       </div>
       <nav className="mt-4 flex-1">
         <ul className="space-y-2">

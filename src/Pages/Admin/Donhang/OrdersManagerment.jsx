@@ -1,12 +1,19 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { formatCurrencyVND } from "../../../Components/Common/finance";
 
 export default function OrdersManagement() {
   const [currentStatus, setCurrentStatus] = useState("Chờ xác nhận");
   const [orders, setOrders] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
+  const [totalSuccessAmount, setTotalSuccessAmount] = useState(0);
+  const [pendingCount, setPendingCount] = useState(0);
+  const [processingCount, setProcessingCount] = useState(0);
+  const [shippingCount, setShippingCount] = useState(0);
+  const [completedCount, setCompletedCount] = useState(0);
+  const [canceledCount, setCanceledCount] = useState(0);
   const roleuser = localStorage.getItem("role");
   useEffect(() => {
     if (roleuser === "Customer") {
@@ -21,13 +28,37 @@ export default function OrdersManagement() {
     try {
       const response = await axios.get("http://localhost:3000/getOrderAdmin");
       setOrders(response.data);
+      calculateTotalSuccessAmount(response.data);
+      calculateOrderCounts(response.data);
     } catch (error) {
       console.error("Error fetching orders:", error);
     }
   };
-
+  const calculateTotalSuccessAmount = (orders) => {
+    const totalAmount = orders
+      .filter((order) => order.trangthai === "Đã giao") // Hoặc trạng thái thành công khác
+      .reduce((sum, order) => sum + parseFloat(order.tongtien), 0); // Chuyển đổi giá thành số và cộng tổng
+    setTotalSuccessAmount(totalAmount);
+  };
   const handleStatusClick = (status) => {
     setCurrentStatus(status);
+  };
+  const calculateOrderCounts = (orders) => {
+    setPendingCount(
+      orders.filter((order) => order.trangthai === "Chờ xác nhận").length
+    );
+    setProcessingCount(
+      orders.filter((order) => order.trangthai === "Đang xử lý").length
+    );
+    setShippingCount(
+      orders.filter((order) => order.trangthai === "Đang giao").length
+    );
+    setCompletedCount(
+      orders.filter((order) => order.trangthai === "Đã giao").length
+    );
+    setCanceledCount(
+      orders.filter((order) => order.trangthai === "Đã hủy").length
+    );
   };
 
   const statuses = [
@@ -72,6 +103,29 @@ export default function OrdersManagement() {
   };
   return (
     <div className="container mx-auto px-4 py-8">
+      <div className="bg-sky-200 my-3 ">
+        <div className="flex flex-col gap-2 p-4">
+          <div>
+            Tổng số tiền Nhận được là:{" "}
+            <span>{formatCurrencyVND(totalSuccessAmount.toString())}</span>
+          </div>
+          <div>
+            Tổng số đơn hàng Chờ xác nhận là: <span>{pendingCount}</span>
+          </div>
+          <div>
+            Tổng số đơn hàng Chờ xử lý là: <span>{processingCount}</span>
+          </div>
+          <div>
+            Tổng số đơn hàng Đang giao là: <span>{shippingCount}</span>
+          </div>
+          <div>
+            Tổng số đơn hàng thành công là: <span>{completedCount}</span>
+          </div>
+          <div>
+            Tổng số đơn hàng bị hủy là: <span>{canceledCount}</span>
+          </div>
+        </div>
+      </div>
       <div className="flex justify-between items-center bg-blue-500 text-white rounded-md overflow-hidden">
         {statuses.map((status) => (
           <button

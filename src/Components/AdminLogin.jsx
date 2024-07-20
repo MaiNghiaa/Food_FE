@@ -67,14 +67,8 @@ const AdminLogin = ({ setIsLogin }) => {
           </button>
         </form>
         <div className="inline-block border-[1px] justify-center w-20 border-blue-400 border-solid"></div>
-        <p className="text-blue-400 mt-4 text-sm">
+        <p className="text-blue-400 mt-4 text-sm pb-3">
           Đăng nhập tư cách quản trị viên
-        </p>
-        <p
-          className="text-blue-400 mb-4 text-sm font-medium cursor-pointer"
-          onClick={() => setIsLogin(false)}
-        >
-          Create a New Account?
         </p>
       </div>
     </div>

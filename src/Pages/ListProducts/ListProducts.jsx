@@ -21,6 +21,7 @@ const ListProduct = () => {
   const [modalLogin, setModalLogin] = useState(false);
   const token = localStorage.getItem("token");
 
+  //lay du lieu sản phẩm trong product
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -66,6 +67,7 @@ const ListProduct = () => {
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
 
+  //pagnigation
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
