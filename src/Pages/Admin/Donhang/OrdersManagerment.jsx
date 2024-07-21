@@ -212,6 +212,17 @@ export default function OrdersManagement() {
                     >
                       {order.showDetails ? "Hide Details" : "Show Details"}
                     </button>
+                    {order.trangthai !== "Đã giao" &&
+                      order.trangthai !== "Đã hủy" && (
+                        <button
+                          onClick={() =>
+                            updateOrderStatus(order.iddonhang, "Đã hủy")
+                          }
+                          className="mt-4 bg-red-500 text-white px-4 py-2 rounded-md"
+                        >
+                          Huỷ đơn
+                        </button>
+                      )}
                     {order.trangthai === "Chờ xác nhận" && (
                       <button
                         onClick={() =>
